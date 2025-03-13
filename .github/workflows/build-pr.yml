@@ -1,0 +1,9 @@
+name: Build Pull Request
+
+on:
+  pull_request
+
+jobs:
+  build-pr:
+    name: Build Pull Request
+    uses: juitnow/workflows-public/.github/workflows/build.yml@main
