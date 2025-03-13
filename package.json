@@ -1,0 +1,56 @@
+{
+  "name": "@juit/capacitor-updater",
+  "version": "0.0.1",
+  "description": "Capacitor utility to update an app from a ZIP file",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "plug",
+    "coverage": "plug coverage",
+    "dev": "plug coverage -w src -w test",
+    "lint": "plug lint",
+    "test": "plug test",
+    "transpile": "plug transpile"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^7.1.0",
+    "@capacitor/filesystem": "^7.0.0"
+  },
+  "devDependencies": {
+    "@plugjs/build": "^0.6.33"
+  },
+  "files": [
+    "*.md",
+    "dist/"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/juitnow/juit-capacitor-updater.git"
+  },
+  "keywords": [
+    "capacitor",
+    "updater",
+    "plugin"
+  ],
+  "author": "Juit Developers <developers@juit.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/juitnow/juit-capacitor-updater/issues"
+  },
+  "homepage": "https://github.com/juitnow/juit-capacitor-updater#readme"
+}

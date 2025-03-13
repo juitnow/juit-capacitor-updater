@@ -1,0 +1,12 @@
+name: Release Package
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    name: Release Package
+    uses: juitnow/workflows-public/.github/workflows/release.yml@main
+    secrets:
+      npm_token: ${{ secrets.npm_token }}

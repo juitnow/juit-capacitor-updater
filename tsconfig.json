@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "lib": [ "esnext", "dom" ],
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "types": [ ],
+    "esModuleInterop": true,
+
+    "noEmit": true,
+
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
+  },
+  "include": [
+    "./build.ts",
+    "./src",
+  ],
+}
