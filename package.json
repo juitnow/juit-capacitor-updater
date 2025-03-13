@@ -34,5 +34,23 @@
   "files": [
     "*.md",
     "dist/"
-  ]
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/juitnow/juit-capacitor-updater.git"
+  },
+  "keywords": [
+    "capacitor",
+    "updater",
+    "plugin"
+  ],
+  "author": "Juit Developers <developers@juit.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/juitnow/juit-capacitor-updater/issues"
+  },
+  "homepage": "https://github.com/juitnow/juit-capacitor-updater#readme"
 }
