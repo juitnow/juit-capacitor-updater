@@ -57,12 +57,9 @@ When successful, this function will asynchronously return a callback
 `() => Promise<void>` that needs to be invoked to reload the web view with the
 updated contents.
 
-If this function asynchronously returns `undefined`, it means that the update
-could not be performed (either due to live-reload in Capacitor or when on the
-web).
-
-In case of errors during downloading or unzipping, this function will throw an
-error asynchronously (returning a rejected promise).
+If the update could not be performed (either due to live-reload in Capacitor or
+when on the web) or in case of errors during downloading or unzipping, this
+function will throw an error asynchronously (returning a rejected promise).
 
 #### `persistUpdates()`
 

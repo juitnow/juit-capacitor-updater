@@ -26,22 +26,22 @@ const UPDATES_DIRECTORY = 'NoCloud/ionic_built_snapshots'
  * Update Capactitor contents by downloading and unzipping the specified URL.
  *
  * @param url - The URL to download the update from.
- * @returns A function that will reload the WebView with the new contents or
- *          `undefined` if updates are not supported (on web, or live reload).
- * @throws If the update fails to download, read, extract, or write.
+ * @returns A function that will reload the WebView with the new contents.
+ * @throws If the update fails for any reason (platform is not native, using
+ *         "live reload", update fails to download, read, extract, write, ...)
  */
-export function updateCapacitor(url: string | URL): Promise<(() => Promise<void>) | undefined>
+export function updateCapacitor(url: string | URL): Promise<() => Promise<void>>
 
 /**
  * Update Capactitor contents by downloading and unzipping the specified URL.
  *
  * @param url - The URL to download the update from.
  * @param verbose - Log the progress of the update (default: `false`).
- * @returns A function that will reload the WebView with the new contents or
- *          `undefined` if updates are not supported (on web, or live reload).
- * @throws If the update fails to download, read, extract, or write.
+ * @returns A function that will reload the WebView with the new contents.
+ * @throws If the update fails for any reason (platform is not native, using
+ *         "live reload", update fails to download, read, extract, write, ...)
  */
-export function updateCapacitor(url: string | URL, verbose: boolean): Promise<(() => Promise<void>) | undefined>
+export function updateCapacitor(url: string | URL, verbose: boolean): Promise<() => Promise<void>>
 
 /**
  * Update Capactitor contents by downloading and unzipping the specified URL.
@@ -51,11 +51,11 @@ export function updateCapacitor(url: string | URL, verbose: boolean): Promise<((
  *                   function will receive a number between 0 and 1; when this
  *                   number between 0 and 0.5, the update is downloading, and
  *                   when it's between 0.5 and 1, the update is extracting.
- * @returns A function that will reload the WebView with the new contents or
- *          `undefined` if updates are not supported (on web, or live reload).
- * @throws If the update fails to download, read, extract, or write.
+ * @returns A function that will reload the WebView with the new contents.
+ * @throws If the update fails for any reason (platform is not native, using
+ *         "live reload", update fails to download, read, extract, write, ...)
  */
-export function updateCapacitor(url: string | URL, progress: (progress: number) => any): Promise<(() => Promise<void>) | undefined>
+export function updateCapacitor(url: string | URL, progress: (progress: number) => any): Promise<() => Promise<void>>
 
 /**
  * Update Capactitor contents by downloading and unzipping the specified URL.
@@ -66,17 +66,17 @@ export function updateCapacitor(url: string | URL, progress: (progress: number) 
  *                   number between 0 and 0.5, the update is downloading, and
  *                   when it's between 0.5 and 1, the update is extracting.
  * @param verbose - Log the progress of the update (default: `false`).
- * @returns A function that will reload the WebView with the new contents or
- *          `undefined` if updates are not supported (on web, or live reload).
- * @throws If the update fails to download, read, extract, or write.
+ * @returns A function that will reload the WebView with the new contents.
+ * @throws If the update fails for any reason (platform is not native, using
+ *         "live reload", update fails to download, read, extract, write, ...)
  */
-export function updateCapacitor(url: string | URL, progress: (progress: number) => any, verbose: boolean): Promise<(() => Promise<void>) | undefined>
+export function updateCapacitor(url: string | URL, progress: (progress: number) => any, verbose: boolean): Promise<() => Promise<void>>
 
 export async function updateCapacitor(
     url: string | URL,
     progressOrVerbose?: boolean | ((progress: number) => any),
     maybeVerbose?: boolean,
-): Promise<(() => Promise<void>) | undefined> {
+): Promise<() => Promise<void>> {
   /* Parse the arguments */
   const progress = typeof progressOrVerbose === 'function' ? progressOrVerbose : () => {}
   const verbose = typeof progressOrVerbose === 'boolean' ? progressOrVerbose : !!maybeVerbose
@@ -85,13 +85,11 @@ export async function updateCapacitor(
   /* ===== CHECKS =========================================================== */
 
   if (! Capacitor.isNativePlatform()) {
-    console.warn('Update is only supported on native platforms')
-    return
+    throw new Error('Update is only supported on native platforms')
   }
 
   if (window.location.protocol !== 'capacitor:') {
-    console.warn('Update is not supported in Capacitor LiveReload')
-    return
+    throw new Error('Update is not supported in Capacitor LiveReload')
   }
 
   /* The unique identifier of this update, randomly generated */
