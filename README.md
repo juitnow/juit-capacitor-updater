@@ -72,3 +72,6 @@ created during an update with [`updateCapacitor(...)`](#updatecapacitor).
 
 This function is also asynchronous and will return a promise to a `boolean`
 indicating `true` when the path has been persisted.
+
+This function will also prune the updates directory from all previous, unused
+updates, preserving only the _current_ update.

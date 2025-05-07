@@ -164,7 +164,7 @@ export async function updateCapacitor(
     })
 
     /* Convert the URI to a path */
-    const serverBasePath = new URL(uri, 'file:///').pathname
+    const serverBasePath = normalize(uri)
     log(`Update extracted to "${serverBasePath}"`)
     progress(1) // Done!
 
@@ -211,11 +211,31 @@ export async function persistUpdates(): Promise<boolean> {
   })
 
   /* Convert the URI to a path */
-  const serverBasePathPrefix = new URL(uri, 'file:///').pathname
+  const serverBasePathPrefix = normalize(uri)
 
   /* Get the current server base path */
   const { path } = await WebView.getServerBasePath()
 
+  /* Figure out all entries in our updates directory */
+  const files = await Filesystem.readdir({
+    directory: Directory.Library,
+    path: UPDATES_DIRECTORY,
+  })
+
+  /* Delete all old updates */
+  for (const file of files.files) {
+    if (file.type !== 'directory') continue // skip files
+    if (normalize(path) === normalize(file.uri)) continue // skip current update
+
+    console.log(`Deleting old update directory "${file.name}"`)
+    await Filesystem.rmdir({
+      directory: Directory.Library,
+      path: `${UPDATES_DIRECTORY}/${file.name}`,
+      recursive: true,
+    })
+  }
+
+  /* Persist the current server base path if it is an update path */
   if (path.startsWith(serverBasePathPrefix)) {
     console.log(`Persisting Capacitor updates from "${path}"`)
     await WebView.persistServerBasePath()
@@ -224,4 +244,11 @@ export async function persistUpdates(): Promise<boolean> {
     console.warn(`Cannot persist updates directory "${path}"`)
     return false
   }
+}
+
+/** Normalize a file URI or path (no double or trailing slashes) */
+function normalize(uriOrPath: string): string {
+  return new URL(uriOrPath, 'file:///').pathname // convert to path
+      .replaceAll(/\/+/g, '/') // normalize slashes
+      .replace(/\/+$/, '') // remove trailing slashes
 }
