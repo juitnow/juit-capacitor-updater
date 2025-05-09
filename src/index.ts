@@ -3,7 +3,7 @@ import { Capacitor, WebView } from '@capacitor/core'
 import { Directory, Filesystem } from '@capacitor/filesystem'
 import JSZip from 'jszip'
 
-import type { ProgressStatus } from '@capacitor/filesystem'
+import type { FileInfo, ProgressStatus } from '@capacitor/filesystem'
 
 /**
  * The updates directory, where the downloaded updates are stored.
@@ -217,13 +217,20 @@ export async function persistUpdates(): Promise<boolean> {
   const { path } = await WebView.getServerBasePath()
 
   /* Figure out all entries in our updates directory */
-  const files = await Filesystem.readdir({
-    directory: Directory.Library,
-    path: UPDATES_DIRECTORY,
-  })
+  let files: FileInfo[]
+  try {
+    const result = await Filesystem.readdir({
+      directory: Directory.Library,
+      path: UPDATES_DIRECTORY,
+    })
+    files = result.files
+  } catch (error) {
+    console.error(`Failed to read updates directory "${UPDATES_DIRECTORY}"`, error)
+    files = []
+  }
 
   /* Delete all old updates */
-  for (const file of files.files) {
+  for (const file of files) {
     if (file.type !== 'directory') continue // skip files
     if (normalize(path) === normalize(file.uri)) continue // skip current update
 
