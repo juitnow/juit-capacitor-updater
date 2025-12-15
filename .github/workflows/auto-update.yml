@@ -5,9 +5,11 @@ on:
     - cron: "15 0 * * 5"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   auto-update:
     name: Automatic Updates
     uses: juitnow/workflows-public/.github/workflows/auto-update.yml@main
-    secrets:
-      git_token: ${{ secrets.git_token }}
+    secrets: inherit
