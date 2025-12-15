@@ -12,4 +12,9 @@ jobs:
   auto-update:
     name: Automatic Updates
     uses: juitnow/workflows-public/.github/workflows/auto-update.yml@main
-    secrets: inherit
+    secrets:
+      AUTO_UPDATES_APP_ID: ${{ secrets.AUTO_UPDATES_APP_ID }}
+      AUTO_UPDATES_APP_PRIVATE_KEY: ${{ secrets.AUTO_UPDATES_APP_PRIVATE_KEY }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      EMAIL_SERVER: ${{ secrets.EMAIL_SERVER }}
+      EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
