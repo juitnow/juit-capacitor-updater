@@ -1,6 +1,6 @@
 {
   "name": "@juit/capacitor-updater",
-  "version": "0.1.40",
+  "version": "0.1.41",
   "description": "Capacitor utility to update an app from a ZIP file",
   "type": "module",
   "main": "dist/index.js",
@@ -25,8 +25,8 @@
     "jszip": "^3.10.1"
   },
   "peerDependencies": {
-    "@capacitor/core": "^8.0.2",
-    "@capacitor/filesystem": "^8.1.0"
+    "@capacitor/core": "^8.1.0",
+    "@capacitor/filesystem": "^8.1.1"
   },
   "devDependencies": {
     "@plugjs/build": "^0.6.81"
